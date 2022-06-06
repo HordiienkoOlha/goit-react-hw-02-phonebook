@@ -7,10 +7,11 @@ const ContactForm = () => {
         <div className={s.row}>
         <label className={s.label}>
             Name
-            <input
+                <input
+                    value={name}
             type="text"
             name="name"
-            // value={name}
+            
                         className={s.input}
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
