@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { nanoid } from 'nanoid';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 import ContactForm from './ContactForm';
 import ContactList from './ContactList';
@@ -7,36 +7,59 @@ import Filter from './Filter';
 import s from './App.module.css';
 
 class App extends Component {
-state = {
-  contacts: [
-    {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
-    {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
-    {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
-    {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
-  ],
-  filter: '',
-  name: '',
-  number: ''
-}
+  state = {
+    contacts: [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+    ],
+    filter: '',
+  };
 
-  formSubmitHandler = data => {
-    console.log(data)
-    const contactId =  nanoid();
-    this.state.contacts.push({id: contactId, name: data.name, number: data.number})
-    console.log(this.state.contacts);
-  }
+  formSubmitHandler = dataContact => {
+    this.state.contacts.some(({ name }) => name === dataContact.name)
+      ? Notify.failure(`Contact ${dataContact.name} already exists`)
+      : this.setState(({ contacts }) => ({
+          contacts: [...contacts, dataContact],
+        }));
+  };
+
+  getFilterValue = event => {
+    this.setState({
+      filter: event.currentTarget.value,
+    });
+  };
+  filteredContacts = () => {
+    const { contacts, filter } = this.state;
+    const newFilter = filter.toLowerCase();
+
+    return contacts.filter(
+      contact =>
+        contact.name.toLowerCase().includes(newFilter) ||
+        contact.number.includes(newFilter)
+    );
+  };
+  deleteContact = contactId => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+    }));
+  };
 
   render() {
-    // console.log(this.state.contacts);
-    const { contacts } = this.state;
+    const { formSubmitHandler, getFilterValue, deleteContact } = this;
+    const { filter } = this.state;
+    const filterContacts = this.filteredContacts();
     return (
-      <div>
+      <div className={s.container}>
         <h1 className={s.title}>Phonebook</h1>
-        <ContactForm onSubmit={this.formSubmitHandler} />
-        <ContactList contacts={contacts} />
-        <Filter />
-
-        
+        <ContactForm onSubmit={formSubmitHandler} />
+        <h2 className={s.title}>Contacts</h2>
+        <Filter value={filter} changeFilter={getFilterValue} />
+        <ContactList
+          contacts={filterContacts}
+          onDeleteContact={deleteContact}
+        />
       </div>
     );
   }

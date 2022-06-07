@@ -1,23 +1,19 @@
-import s from './Filter.module.css'
+import PropTypes from 'prop-types';
+import s from './Filter.module.css';
 
-const Filter = () => {
+const Filter = ({ changeFilter }) => {
+  return (
+    <>
+      <label className={s.label}>
+        <h2>Find contacts by name </h2>
+        <input type="text" placeholder="Search..." onChange={changeFilter} />
+      </label>
+    </>
+  );
+};
 
-    return (
-        <div>
-            <label className={s.label}>
-            Find contacts by name
-            <input
-              type="text"
-              name="filterInput"
-              className={s.input}
-              pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-              title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            //   onChange={this.onFind}
-              required
-            />
-            </label>
-            </div>
-    )
+Filter.propTypes = {
+  onSearch: PropTypes.func,
+};
 
-}
 export default Filter;
