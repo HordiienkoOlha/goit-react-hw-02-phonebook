@@ -1,6 +1,8 @@
 
 const ContactList = ({ contacts }) => {
-    // const { id, name, number } = contacts
+    
+    console.log(contacts)
+
     return (
         <ul>
             {contacts.map(contact => (
