@@ -6,25 +6,25 @@ class App extends Component {
   state = {
   contacts: [],
   filter: '',
-  name: '',
+  // name: '',
   number: ''
   };
 
     // Проп, який передається формі для виклику під час сабміту
     // this.props.onSubmit({ ...this.state });
-  onChange = (event) => {
-    console.log(this.setState)
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
+  // onChange = (event) => {
+  //   console.log(this.setState)
+  //   this.setState({
+  //     [event.target.name]: event.target.value
+  //   })
+  // }
   onSubmit = (event) => {
     event.preventDefault();
     console.log(this.state)
   }
 
   render() {
-    const { name, number } = this.state;
+    // const { name, number } = this.state;
     // console.log(this.state)
     return (
       <div>
@@ -35,7 +35,7 @@ class App extends Component {
               <label className={s.label}>
               Name
                 <input
-                  value={name}
+                  // value={name}
                   type="text"
                   name="name"
                   className={s.input}
@@ -48,7 +48,7 @@ class App extends Component {
               <label className={s.label}>
               Number
               <input
-                value={number}
+                // value={number}
                   type="tel"
                     name="number"
                     className={s.input}
